@@ -1,4 +1,4 @@
-<h1 align="center">juegos_aperture</h1>
+<h1 align="center">Presentacion Semillero</h1>
 
 <p align="center">
   Web de presentación del semillero de <b>Data Science e IA</b>,<br>
