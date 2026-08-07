@@ -39,4 +39,4 @@ uv run uvicorn backend.main:app --reload
 <p align="center">
   <b><a href="http://127.0.0.1:8000">http://127.0.0.1:8000</a></b>
 </p>
-"# presentacion-semillero" 
+
