@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>aperture // presentación</title>
+  <link rel="icon" type="image/png" href="assets/aperture-eye-cyan.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="estilos.css?v=99">
+  <script type="module" src="js/ambiente.js?v=99"></script>
+  <script type="module" src="js/main.js?v=99"></script>
+  <script type="module" src="js/preguntas.js?v=99"></script>
+  <script type="module" src="js/vitrinas.js?v=99"></script>
+  <script type="module" src="js/lineas.js?v=99"></script>
+  <script type="module" src="js/pestanas.js?v=99"></script>
+</head>
+
+<body>
+
+<canvas id="lluvia" aria-hidden="true"></canvas>
+<div class="crt-lineas" aria-hidden="true"></div>
+<div class="crt-vineta" aria-hidden="true"></div>
+
+<div class="envoltura">
+
+  <header>
+    <div class="linea-cmd">
+      <span class="prompt"><span class="usuario">aperture@lab</span>:<span class="ruta">~</span>$</span>
+      ./presentacion.sh<span class="cursor" aria-hidden="true"></span>
+    </div>
+
+    <h1>APERTURE <span class="barra">//</span> PRESENTACION</h1>
+  </header>
+
+  <nav class="pestanas" role="tablist" aria-label="Secciones de la presentación">
+    <button type="button" role="tab" id="tab-semillero"
+            aria-controls="vista-semillero" aria-selected="true">
+      <i>01</i> el semillero
+    </button>
+    <button type="button" role="tab" id="tab-laberinto"
+            aria-controls="vista-laberinto" aria-selected="false" tabindex="-1">
+      <i>02</i> gato &amp; ratón
+    </button>
+    <button type="button" role="tab" id="tab-preguntas"
+            aria-controls="vista-preguntas" aria-selected="false" tabindex="-1">
+      <i>03</i> preguntados
+    </button>
+  </nav>
+
+  <section id="vista-semillero" class="vista" role="tabpanel" aria-labelledby="tab-semillero">
+
+    <section class="hero">
+      <canvas id="constelacion" class="malla" aria-hidden="true"></canvas>
+      <img class="logo-grande" src="assets/aperture-cyan.png" alt="Aperture">
+      <h2>SEMILLERO DE<br><span>DATA SCIENCE E IA</span></h2>
+    </section>
+
+    <div class="lineas">
+      <button type="button" class="linea" data-linea="ds">
+        <div class="viz" data-viz="ds" aria-hidden="true"></div>
+        <b>Data Science y Machine Learning</b>
+        <span>Análisis, estadística y modelos que predicen.</span>
+      </button>
+      <button type="button" class="linea" data-linea="ia">
+        <div class="viz" data-viz="ia" aria-hidden="true"></div>
+        <b>IA y Sistemas Inteligentes</b>
+        <span>Transformers, agentes y RAG.</span>
+      </button>
+      <button type="button" class="linea" data-linea="hpc">
+        <div class="viz" data-viz="hpc" aria-hidden="true"></div>
+        <b>High Performance Computing</b>
+        <span>Cómputo en GPU, en paralelo y a escala.</span>
+      </button>
+    </div>
+
+    <dialog id="ficha" class="ficha" aria-labelledby="fichaTitulo">
+      <button type="button" class="ficha-cerrar" aria-label="cerrar">✕</button>
+
+      <div class="viz ficha-viz" aria-hidden="true"></div>
+
+      <div class="ficha-cuerpo">
+        <p class="ficha-rotulo"><span class="ficha-alias"></span></p>
+        <h3 class="ficha-titulo" id="fichaTitulo"></h3>
+        <p class="ficha-esencia"></p>
+        <ul class="ficha-temas"></ul>
+      </div>
+    </dialog>
+
+  </section>
+
+  <section id="vista-laberinto" class="vista" role="tabpanel" aria-labelledby="tab-laberinto" hidden>
+
+    <div class="columnas">
+
+      <div>
+        <section class="panel">
+          <div class="cabecera">
+            <span class="prompt">$</span> ./tablero --cols 12 --rows 8
+          </div>
+          <div class="cuerpo">
+            <div id="tablero" class="tablero"
+                 role="img"
+                 aria-label="Cuadrícula de 12 columnas por 8 filas. El gato sale arriba-izquierda, el ratón espera abajo-derecha, con muros repartidos.">
+
+            </div>
+
+            <div class="metricas">
+              <div class="metrica"><span>puntaje</span><strong id="mPuntaje">—</strong></div>
+              <div class="metrica"><span>pasos dados</span><strong id="mPasos">—</strong></div>
+              <div class="metrica"><span>ruta óptima</span><strong id="mOptimo">—</strong></div>
+              <div class="metrica"><span>tus tokens</span><strong id="mTokens">—</strong></div>
+              <div class="metrica"><span>estado</span><strong id="mEstado" class="chico">en espera</strong></div>
+            </div>
+
+            <div class="fila">
+              <button type="button" id="btnNuevo">$ nuevo tablero</button>
+              <button type="button" id="btnLimpiar" class="fantasma">reiniciar gato</button>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div>
+
+        <section class="panel">
+          <div class="cabecera"><span class="prompt">$</span> ./ejecutar.sh</div>
+          <div class="cuerpo">
+            <label for="instruccion"><span class="dolar">$</span>instruccion --lenguaje natural</label>
+            <textarea id="instruccion" spellcheck="false"
+                      placeholder="avanza 5 a la derecha, baja 3, luego 2 a la derecha y por último 4 abajo"></textarea>
+
+            <div class="fila">
+              <button type="button" id="btnEjecutar" class="primario">▸ soltar al gato</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="cabecera"><span class="prompt">$</span> man ./gato</div>
+          <div class="cuerpo">
+            <p class="objetivo">
+              Dale al gato las instrucciones que <b>gasten menos tokens</b> para llegar al ratón.
+            </p>
+
+            <div class="captura">
+              <svg viewBox="0 0 180 90" role="img"
+                   aria-label="El gato sale de la esquina superior izquierda, esquiva los muros bajando y avanzando, y atrapa al ratón en la esquina inferior derecha.">
+
+                <defs>
+                  <pattern id="rejillaCaptura" width="18" height="18" patternUnits="userSpaceOnUse">
+                    <path class="linea-rejilla" d="M18 0 V18 H0"/>
+                  </pattern>
+                </defs>
+
+                <rect width="180" height="90" fill="url(#rejillaCaptura)"/>
+                <rect class="marco" x=".5" y=".5" width="179" height="89"/>
+
+                <g class="muro">
+                  <rect x="38.5"  y="2.5"  width="13" height="13"/>
+                  <rect x="128.5" y="20.5" width="13" height="13"/>
+                  <rect x="92.5"  y="38.5" width="13" height="13"/>
+                  <rect x="146.5" y="38.5" width="13" height="13"/>
+                  <rect x="38.5"  y="56.5" width="13" height="13"/>
+                </g>
+
+                <polyline class="ruta" points="9,9 27,9 27,45 81,45 81,81 171,81"/>
+
+                <circle class="cerco" cx="171" cy="81" r="8"/>
+
+                <text class="ficha" x="9" y="9">🐱</text>
+                <text class="ficha" x="171" y="81">🐭</text>
+              </svg>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="vista-preguntas" class="vista" role="tabpanel" aria-labelledby="tab-preguntas" hidden>
+
+    <div class="lobby" id="lobby">
+      <div class="columnas columnas-lobby">
+
+        <section class="panel">
+          <div class="cabecera">
+            <span class="prompt">$</span> ./gachapon
+          </div>
+          <div class="cuerpo lobby-caja esquinas">
+            <i class="esq tl"></i><i class="esq tr"></i>
+            <i class="esq bl"></i><i class="esq br"></i>
+
+            <div class="maquina">
+              <div id="gachapon" class="gachapon" aria-hidden="true"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel portada">
+          <div class="cabecera">
+            <span class="prompt">$</span> ./preguntados.sh
+          </div>
+          <div class="cuerpo portada-caja esquinas">
+            <i class="esq tl"></i><i class="esq tr"></i>
+            <i class="esq bl"></i><i class="esq br"></i>
+
+            <canvas class="malla malla-caja" data-alcance="150" data-densidad="16000"
+                    aria-hidden="true"></canvas>
+
+            <div class="portada-marca">
+              <ul class="portada-capsulas" aria-hidden="true">
+                <li data-tema="python"></li>
+                <li data-tema="pandas"></li>
+                <li data-tema="sql"></li>
+                <li data-tema="ml"></li>
+                <li data-tema="ia"></li>
+              </ul>
+
+              <h3 class="lobby-titulo">
+                PREGUNTADOS<br><span>DE DATA SCIENCE E IA</span>
+              </h3>
+            </div>
+
+            <ul class="temas-chips" id="listaTemas"></ul>
+
+            <button type="button" id="btnTirar" class="primario grande">
+              ▸ TIRAR DEL GACHAPÓN
+            </button>
+          </div>
+        </section>
+
+      </div>
+    </div>
+
+    <section class="panel hud-panel" id="hudPartida" hidden>
+      <div class="hud">
+        <div class="hud-dato hud-reloj">
+          <span>tiempo</span><strong id="rTiempo">2:00</strong>
+        </div>
+
+        <button type="button" id="btnAbandonar" class="fantasma">abandonar</button>
+      </div>
+    </section>
+
+    <section class="panel esquinas" id="panelQuiz" hidden>
+      <i class="esq tl"></i><i class="esq tr"></i>
+      <i class="esq bl"></i><i class="esq br"></i>
+
+      <div class="cuerpo">
+        <div id="quiz" class="quiz" aria-live="polite">
+
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="panelResultado" hidden>
+      <div class="cuerpo resultado">
+        <div class="resultado-columnas">
+
+          <div class="marcador">
+            <div class="marcador-nota">
+              <div class="rango">
+                <b class="rango-letra"></b>
+                <span class="rango-nota"></span>
+              </div>
+
+              <div class="marcador-puntos">
+                <p class="resultado-total"></p>
+                <p class="resultado-unidad">puntos</p>
+              </div>
+            </div>
+
+            <ul class="resultado-desglose"></ul>
+          </div>
+
+          <div class="resultado-repaso">
+            <p class="repaso-rotulo">qué tal fue cada una</p>
+            <ol class="repaso" id="repaso"></ol>
+
+            <button type="button" data-ir="lobby" class="primario grande">▸ VOLVER AL INICIO</button>
+          </div>
+
+        </div>
+      </div>
+
+      <dialog id="repasoFicha" class="repaso-ficha" aria-labelledby="repasoTitulo">
+        <button type="button" class="ficha-cerrar" aria-label="cerrar">✕</button>
+        <div class="repaso-cuerpo" id="repasoCuerpo"></div>
+      </dialog>
+    </section>
+  </section>
+
+</div>
+</body>
+</html>
